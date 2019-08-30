@@ -15,13 +15,14 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     abstract fun getLayoutResource(): Int
+
     abstract fun getPeekHeight(): Int
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.base_bottom_sheet_dialog_layout, container, false)
+        val view = inflater.inflate(R.layout.base_bottom_sheet_dialog_layout, container, false)
         view.view_stub.layoutResource = getLayoutResource()
         view.view_stub.inflate()
         return view
@@ -29,20 +30,23 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupPeekHeight(view)
+    }
+
+    private fun setupPeekHeight(view: View) {
         view.viewTreeObserver.addOnGlobalLayoutListener {
-            val bottomSheet =
-                dialog!!.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-            val behavior = BottomSheetBehavior.from(bottomSheet)
-            var peekHeight = getPeekHeight()
-            context.let {
-                peekHeight += convertDpToPx(context!!, 40)
+            dialog?.let { dialog ->
+                val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+                val behavior = BottomSheetBehavior.from(bottomSheet)
+                var peekHeight = getPeekHeight()
+                context?.let { context ->
+                    peekHeight += getHeaderHeight(context)
+                }
+                behavior.peekHeight = peekHeight
             }
-            behavior.setPeekHeight(peekHeight)
         }
     }
 
-    private fun convertDpToPx(context: Context, dp: Int): Int {
-        return (dp * context.getResources().getDisplayMetrics().density).toInt()
-    }
+    private fun getHeaderHeight(context: Context) : Int = (40 * context.resources.displayMetrics.density).toInt()
 
 }

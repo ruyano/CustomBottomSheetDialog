@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            tools:context=".BottomSheetDialog"
+            tools:context=".BottomSheetDialogRecyclerView"
             tools:listitem="@layout/fragment_item_list_dialog_item" />
 
     </LinearLayout>

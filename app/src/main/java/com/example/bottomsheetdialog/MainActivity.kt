@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             if (!texto.isNullOrEmpty()) {
                 itemCount = texto.toInt()
             }
-            val dialog = BottomSheetDialog.newInstance(itemCount)
+            val dialog = BottomSheetDialogRecyclerView.newInstance(itemCount)
             dialog.show(supportFragmentManager, "bottomSheet")
         }
     }
