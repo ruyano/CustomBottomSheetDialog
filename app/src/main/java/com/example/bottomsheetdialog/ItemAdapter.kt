@@ -8,11 +8,11 @@ import kotlinx.android.synthetic.main.fragment_item_list_dialog_item.view.*
 
 class ItemAdapter constructor(val mItemCount: Int) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context), parent)
     }
 
-    override fun onBindViewHolder(holder: ItemAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.text.text = position.toString()
     }
 
