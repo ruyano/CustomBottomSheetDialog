@@ -22,10 +22,11 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.base_bottom_sheet_dialog_layout, container, false)
-        view.view_stub.layoutResource = getLayoutResource()
-        view.view_stub.inflate()
-        return view
+        return inflater.inflate(R.layout.base_bottom_sheet_dialog_layout, container, false).apply {
+            view_stub.layoutResource = getLayoutResource()
+            view_stub.inflate()
+            header.setOnClickListener { clickHeader() }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +47,21 @@ abstract class BaseBottomSheetDialog : BottomSheetDialogFragment() {
             }
         }
     }
+
+    private fun clickHeader() {
+        dialog?.let { dialog ->
+            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val behavior = BottomSheetBehavior.from(bottomSheet)
+            behavior.state = if (bottomSeetIsExpanded(behavior)) {
+                BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+    }
+
+    private fun bottomSeetIsExpanded(behavior: BottomSheetBehavior<FrameLayout>) =
+        behavior.state == BottomSheetBehavior.STATE_EXPANDED
 
     private fun getHeaderHeight(context: Context) : Int = (40 * context.resources.displayMetrics.density).toInt()
 
